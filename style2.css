@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%; /* 1 rem = 10px */
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body { 
+    background-color: rgb(50, 50, 68);
+    overflow: auto; /* Habilita el scroll */
+}
+
+svg {
+    cursor: grab; /* Aplica un cursor de agarre por defecto */
+}
+
+@media (min-width: 390px) {
+    svg {  
+        position: relative;
+        left: 5%;
+        bottom: 0%;
+        zoom: 35%;
+    }
+}
+@media (min-width: 768px) {
+    svg {  
+        position: relative;
+        left: 10%;
+        bottom: 0%;
+        zoom: 60%;
+    }
+}
+@media (min-width: 1080px) {
+    svg {  
+        position: relative;
+        left: 10%;
+        bottom: 0%;
+        zoom: 90%;
+    }
+}
+@media (min-width: 1440px) {
+    svg {  
+        position: relative;
+        left: 5%;
+        bottom: 0%;
+        zoom: 90%;
+    }
+}
+
+svg path {
+    cursor: pointer;
+}
+
+svg path:hover {
+    fill: crimson;
+}
+
+#namep {  
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+    font-weight: 300;
+    font-size: 50px;
+    border: 5px solid crimson;
+    width: fit-content;
+}
