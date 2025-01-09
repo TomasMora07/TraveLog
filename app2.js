@@ -48,8 +48,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // FIN DE MOVER EL MAPA CON EL MOUSE
 
-// INICIO DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
+/* INICIO DEL MENU BAR */ 
+document.addEventListener("DOMContentLoaded", () => {
+   const menuIcon = document.getElementById("menu-icon");
+   const dropdownMenu = document.getElementById("dropdown-menu");
 
+   // Alternar la visibilidad del menú desplegable al hacer clic en el icono
+   menuIcon.addEventListener("click", () => {
+       dropdownMenu.style.display =
+           dropdownMenu.style.display === "block" ? "none" : "block";
+   });
+   /* FIN DEL MENU BAR */ 
+
+   // Cerrar el menú si se hace clic fuera de él
+   document.addEventListener("click", (event) => {
+       if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+           dropdownMenu.style.display = "none";
+       }
+   });
+});
+
+
+// INICIO DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
 document.addEventListener("DOMContentLoaded", function () {
    const searchInput = document.getElementById("search-input");
    const countryList = document.getElementById("country-list");

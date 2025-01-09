@@ -8,7 +8,6 @@
     --blanco: #ffffff;
     --negro: #000000;
 }
-
 * {
     margin: 0;
     padding: 0;
@@ -140,7 +139,7 @@ h2 {
  }
  
  #country-list li:hover {
-    background-color: rgb(92, 196, 241);
+    background-color: rgba(68, 80, 86, 0.212);
  }
  
  /* Resaltado del país en el mapa */
@@ -148,15 +147,59 @@ h2 {
     fill: green !important;
  }
 
-/* Icono de perfil*/
-.fa-solid {
+/* Icono de barra*/
+#menu-icon {
     color: var(--blanco);
     position: absolute; /* Fija la posición dentro de .header */
     top: 62%; /* Ajusta la posición vertical */
     right: 2rem; /* Ajusta la posición horizontal */
     transform: translateY(-50%); /* Centra el icono verticalmente dentro del header */
     z-index: 10; /* Asegura que esté encima de otros elementos */
+    font-size: 2.5rem; /* Ajusta el tamaño del ícono */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+    padding: 1rem; /* Agrega espacio alrededor del ícono */
+    border-radius: 50%; /* Forma circular */
 }
+
+.fa-solid:hover {
+    background-color: rgba(0, 0, 0, 0.32); /* Fondo más oscuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para un mejor efecto */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: 70%;
+    right: 2.5rem;
+    background-color: var(--blanco);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    z-index: 20;
+    width: 15rem;
+    text-align: left;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    font-size: 1.6rem;
+    color: var(--gris-oscuro);
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dropdown-item i {
+    margin-right: 1rem; /* Espaciado entre ícono y texto */
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Color de fondo al pasar el mouse */
+    cursor: pointer;
+}
+/* Fin Dropdown Menu */
 
 /* MAPA */
 @media (min-width: 390px) {
