@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
    });
 });
 
-
 // INICIO DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
 document.addEventListener("DOMContentLoaded", function () {
    const searchInput = document.getElementById("search-input");
@@ -133,16 +132,22 @@ document.addEventListener("DOMContentLoaded", function () {
          const li = e.target.closest("li");
          const selectedCountryId = li.dataset.id;
 
-         // Resaltar el país en el mapa
+         // Alternar selección del país en el mapa
          svgPaths.forEach(path => {
-            path.classList.remove("selected"); // Quitar cualquier selección previa
             if (path.id === selectedCountryId) {
-               path.classList.add("selected");
+               path.classList.toggle("selected"); // Alternar la clase "selected"
+            } else {
+               path.classList.remove("selected"); // Asegurarse de que otros países no queden seleccionados
             }
          });
 
          // Mostrar el nombre del país en el input
-         searchInput.value = li.textContent;
+         const selectedPath = Array.from(svgPaths).find(path => path.id === selectedCountryId);
+         if (selectedPath && selectedPath.classList.contains("selected")) {
+            searchInput.value = li.textContent; // Mostrar nombre si está seleccionado
+         } else {
+            searchInput.value = ""; // Limpiar input si se deselecciona
+         }
 
          // Ocultar la lista después de seleccionar
          countryList.style.display = "none";
@@ -157,87 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
    });
 });
 // FIN DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
-
-
-// INICIO DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
-/*
-document.addEventListener("DOMContentLoaded", function () {
-   const searchInput = document.getElementById("search-input");
-   const countryList = document.getElementById("country-list");
-   const svgPaths = document.querySelectorAll("svg path");
-
-   // Cargar todos los países al iniciar
-   const countries = Array.from(svgPaths).map(path => ({
-      id: path.id,
-      name: path.getAttribute("title"),
-   }));
-
-   // Poblar la lista de países
-   countries.forEach(country => {
-
-      const li = document.createElement("li");
-
-      li.textContent = country.name;
-      li.dataset.id = country.id; // Relacionar con el path del mapa
-      countryList.appendChild(li);
-   });
-
-   // Mostrar la lista completa al hacer clic en la barra de búsqueda
-   searchInput.addEventListener("focus", function () {
-      // Mostrar todos los países
-      Array.from(countryList.children).forEach(li => {
-         li.style.display = "block";
-      });
-      countryList.style.display = "block";
-   });
-
-   // Filtrar la lista al escribir
-   searchInput.addEventListener("input", function () {
-      const searchValue = searchInput.value.toLowerCase();
-
-      // Filtrar los países que coincidan con la búsqueda
-      Array.from(countryList.children).forEach(li => {
-         const matches = li.textContent.toLowerCase().includes(searchValue);
-         li.style.display = matches ? "block" : "none";
-      });
-
-      // Mostrar la lista si hay texto o si se ha hecho clic
-      countryList.style.display = searchValue || searchInput === document.activeElement ? "block" : "none";
-   });
-
-   // Seleccionar un país desde la lista
-   countryList.addEventListener("click", function (e) {
-      if (e.target.tagName === "LI") {
-         const selectedCountryId = e.target.dataset.id;
-
-         // Resaltar el país en el mapa
-         svgPaths.forEach(path => {
-            path.classList.remove("selected"); // Quitar cualquier selección previa
-            if (path.id === selectedCountryId) {
-               path.classList.add("selected");
-            }
-         });
-
-         // Mostrar el nombre del país en el input
-         searchInput.value = e.target.textContent;
-
-         // Ocultar la lista después de seleccionar
-         countryList.style.display = "none";
-      }
-   });
-
-   // Ocultar la lista al hacer clic fuera del contenedor
-   document.addEventListener("click", function (e) {
-      if (!e.target.closest(".search-container")) {
-         countryList.style.display = "none";
-      }
-   });
-});
- // FIN DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
-
-
-
-
 
 
 
