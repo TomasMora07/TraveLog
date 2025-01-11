@@ -18,6 +18,26 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html")); // Asegúrate de que index.html esté en la carpeta 'public'
 });
 
+// Iniciar el servidor
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 // Ruta para insertar países desde el SVG
 app.post("/insertar-paises", async (req, res) => {
   try {
@@ -60,8 +80,4 @@ app.post("/insertar-paises", async (req, res) => {
     res.status(500).send("Hubo un error al insertar los países.");
   }
 });
-
-// Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+*/

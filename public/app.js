@@ -141,6 +141,22 @@ document.addEventListener("DOMContentLoaded", function () {
    });
 });
  // FIN DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ /*
  function insertarPaises() {
    fetch('/insertar-paises', { method: 'POST' })
      .then(response => {
@@ -158,3 +174,4 @@ document.addEventListener("DOMContentLoaded", function () {
        alert('Error al insertar los países.');
      });
  }
+     */
