@@ -11,6 +11,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -141,6 +142,29 @@ h2 {
  #country-list li:hover {
     background-color: rgba(68, 80, 86, 0.212);
  }
+
+/* Asegura que la lista se vea bien */
+#country-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+ }
+ 
+ /* Espaciado entre el checkbox y el nombre del país */
+ .country-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* Espacio entre elementos de la lista */
+ }
+ 
+ .country-item input[type="checkbox"] {
+    margin-right: 10px; /* Separar el checkbox del texto */
+ }
+ 
+ .country-name {
+    font-size: 16px; /* Ajusta el tamaño del texto si es necesario */
+ }
+ 
  
  /* Resaltado del país en el mapa */
  svg path.selected {
@@ -202,6 +226,14 @@ h2 {
 /* Fin Dropdown Menu */
 
 /* MAPA */
+#map-container {
+    justify-content: center;
+    align-items: center;
+    min-height: 10vh;
+    background: no-repeat;
+    background-size: cover;
+}
+
 @media (min-width: 390px) {
     svg {  
         position: relative;
@@ -247,11 +279,11 @@ h2 {
 @media (min-width: 1440px) {
     svg {  
         position: relative;
-        left: 5%;
+        left: 15%;
         bottom: 0%;
-        zoom: 90%;
+        zoom: 125%;
     }
-}
+} 
 
 svg path {
     cursor: pointer;

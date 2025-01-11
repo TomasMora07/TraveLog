@@ -12,7 +12,6 @@ body {
    justify-content: center;
    align-items: center;
    min-height: 100vh;
-   background: seagreen; 
    background: url('/img/login.jpg') no-repeat;
    background-size: cover;
 }
