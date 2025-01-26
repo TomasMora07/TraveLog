@@ -8,6 +8,20 @@ for (const path of paths) {
   });
 }
 
+// SCRIPT HEADER
+const toggleBtn = document.querySelector('.toggle_btn')
+const toggleIcon = document.querySelector('.toggle_btn i')
+const dropdownMenu = document.querySelector('.dropdown_menu')
+
+toggleBtn.onclick = function () {
+   dropdownMenu.classList.toggle('open')
+   const isOpen = dropdownMenu.classList.contains('open')
+
+   toggleIcon.classList = isOpen
+   ? 'fa-solid fa-xmark'
+   : 'fa-solid fa-bars'
+}
+
 // INICIO DE MOVER EL MAPA CON EL MOUSE
 document.addEventListener('DOMContentLoaded', () => {
     const svgElement = document.querySelector('svg');
@@ -48,25 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // FIN DE MOVER EL MAPA CON EL MOUSE
 
-/* INICIO DEL MENU BAR */ 
-document.addEventListener("DOMContentLoaded", () => {
-   const menuIcon = document.getElementById("menu-icon");
-   const dropdownMenu = document.getElementById("dropdown-menu");
-
-   // Alternar la visibilidad del menú desplegable al hacer clic en el icono
-   menuIcon.addEventListener("click", () => {
-       dropdownMenu.style.display =
-           dropdownMenu.style.display === "block" ? "none" : "block";
-   });
-   /* FIN DEL MENU BAR */ 
-
-   // Cerrar el menú si se hace clic fuera de él
-   document.addEventListener("click", (event) => {
-       if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-           dropdownMenu.style.display = "none";
-       }
-   });
-});
 
 // INICIO DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
 document.addEventListener("DOMContentLoaded", function () {
@@ -154,14 +149,15 @@ document.addEventListener("DOMContentLoaded", function () {
       }
    });
 
-   // Ocultar la lista al hacer clic fuera del contenedor
+   // Ocultar la lista al hacer clic fuera del contenedor, excepto en el input o la lista
    document.addEventListener("click", function (e) {
-      if (!e.target.closest(".search-container")) {
+      if (!e.target.closest("#search-input") && !e.target.closest("#country-list")) {
          countryList.style.display = "none";
       }
    });
 });
 // FIN DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
+
 
 
 

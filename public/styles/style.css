@@ -1,135 +1,153 @@
-/*Custom Properties*/
-:root {
-    --fuenteHeading: 'PT Sans', sans-serif;
-    --fuenteParrafos: 'Open Sans', sans-serif;
-    --background-color: rgb(50, 50, 68);
-    --primario: #784d3c;
-    --gris: #e1e1e1;
-    --blanco: #ffffff;
-    --negro: #000000;
-}
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html {
-    box-sizing: border-box;
-    font-size: 62.5%; /* 1 rem = 10px */
+body {
+    height: 100vh;
+    background-color: #000;
+    background-image: url(/img/bg.jpg);
+    background-size: cover;
+    background-position: center;
+    overflow: auto;
 }
 
-*, *:before, *:after {
-    box-sizing: inherit;
+li {
+    list-style: none;
 }
 
-body { 
-    background-color: var(--background-color);
-    overflow: auto; /* Habilita el scroll */
-}
-
-svg {
-    cursor: grab; /* Aplica un cursor de agarre por defecto */
-}
-
-/*Globales*/
-.contenedor {
-    max-width: 120rem;
-    width: 90%;
-    /*Centrar el contenido*/
-    margin: 0 auto;
-}
 a {
-    /*Enlaces sin interlineado*/
     text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
 }
-h1, h2, h3, h4 {
-    font-family: var(--fuenteHeading);
-    line-height: 1.2;
-}
-h1 {
-    font-size: 4.8rem;
-}
-h2 {
-    font-size: 3.5rem;
-    color: var(--blanco);
-    font-weight: 700;
-    text-transform: uppercase;
+
+a:hover {
+    color: orange;
 }
 
 /* HEADER */
-.header {
-    height: 10rem;
-    background-size: cover;
-    background-repeat: no-repeat;
-    /*Centrar vertical y horizontalmente*/
-    background-position: center center;
-    background-color: rgb(45, 45, 62);
-    position: relative; /* Necesario para que el ícono se posicione correctamente */
+
+header {
+    position: relative;
+    padding: 0 2rem;
+    background: rgba(255, 255, 255, 0.1);
 }
-.barra {
-    padding-top: 2rem;
-    padding-bottom: 1rem;
-    position: relative; /* Establece un contexto para el icono */
+
+.navbar {
+    width: 100%;
+    height: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-@media (min-width: 768px) {
-    .barra {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative; /* Mantener para soporte del icono */
+
+.navbar .logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar .links {
+    display: flex;
+    gap: 2rem;
+}
+
+.navbar .toggle_btn {
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none;
+}
+
+.action_btn {
+    background-color: orange;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: scale 0.2 ease;
+}
+
+.action_btn:hover {
+    color: #fff;
+}
+
+/* DROPDOWN MENU */
+.dropdown_menu {
+    display: none;
+    position: absolute;
+    right: 2rem;
+    top: 60px;
+    width: 300px;
+    height: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100; /* Asegura que la lista esté por encima de otros elementos */
+}
+
+.dropdown_menu.open {
+    height: 175px;
+}
+
+.dropdown_menu li{
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown_menu .action_btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* RESPONSIVE HEADER */
+@media (max-width: 750px) {
+    .navbar .links,
+    .navbar .action_btn {
+        display: none;
     }
-}
-.logo {
-    color: var(--blanco);
-}
-.logo__nombre {
-    font-weight: normal;
-}
-.logo__bold {
-    font-weight: 700;
-}
-@media (min-width: 768px) {
-    .navegacion {
-        margin-left: auto; /* Empuja el ícono hacia la derecha */
-        display: flex;
-        gap: 2rem;
+
+    .navbar .toggle_btn {
+        display: block;
+    }
+
+    .dropdown_menu {
+        display: block;
     }
 }
 
-/* Barra de búsqueda */
-/* Contenedor de búsqueda */
-.search-container {
-    position: absolute; /* Fija la posición dentro de .header */
-    top: 62%; /* Ajusta la posición vertical */
-    right: 8rem; /* Ajusta la posición horizontal */
-    transform: translateY(-50%); /* Centra el icono verticalmente dentro del header */
-    z-index: 10; /* Asegura que esté encima de otros elementos */
- }
- 
- #search-input {
-    width: 15rem;
-    padding: 0.5rem;
-    font-size: 1.4rem;
-    border: 1px solid var(--gris);
-    border-radius: 4px;
- }
- 
- /* Lista desplegable */
- #country-list {
+@media (max-width: 576px) {
+    .dropdown_menu {
+        left: 2rem;
+        width: unset;
+    }
+}
+
+/* LISTA DE PAISES */
+#country-list {
+    display: none;
     position: absolute;
-    top: 3.5rem; /* Justo debajo del input */
-    width: 15rem;
+    right: 2rem;
+    top: 70px;
+    width: 300px;
     max-height: 12rem; /* Muestra máximo 5 elementos (ajusta según el diseño) */
-    overflow-y: auto;
-    border: 1px solid var(--gris);
-    background: var(--blanco);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    overflow: auto;
     z-index: 100; /* Asegura que la lista esté por encima de otros elementos */
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: none; /* Oculto por defecto */
  }
  
  #country-list li {
@@ -141,6 +159,7 @@ h2 {
  
  #country-list li:hover {
     background-color: rgba(68, 80, 86, 0.212);
+    color: rgb(211, 137, 0);
  }
 
 /* Asegura que la lista se vea bien */
@@ -165,65 +184,10 @@ h2 {
     font-size: 16px; /* Ajusta el tamaño del texto si es necesario */
  }
  
- 
  /* Resaltado del país en el mapa */
  svg path.selected {
     fill: green !important;
  }
-
-/* Icono de barra*/
-#menu-icon {
-    color: var(--blanco);
-    position: absolute; /* Fija la posición dentro de .header */
-    top: 62%; /* Ajusta la posición vertical */
-    right: 2rem; /* Ajusta la posición horizontal */
-    transform: translateY(-50%); /* Centra el icono verticalmente dentro del header */
-    z-index: 10; /* Asegura que esté encima de otros elementos */
-    font-size: 2.5rem; /* Ajusta el tamaño del ícono */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
-    padding: 1rem; /* Agrega espacio alrededor del ícono */
-    border-radius: 50%; /* Forma circular */
-}
-
-.fa-solid:hover {
-    background-color: rgba(0, 0, 0, 0.32); /* Fondo más oscuro */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para un mejor efecto */
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-}
-
-/* Dropdown Menu */
-.dropdown-menu {
-    display: none; /* Oculto por defecto */
-    position: absolute;
-    top: 70%;
-    right: 2.5rem;
-    background-color: var(--blanco);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    z-index: 20;
-    width: 15rem;
-    text-align: left;
-}
-
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    font-size: 1.6rem;
-    color: var(--gris-oscuro);
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.dropdown-item i {
-    margin-right: 1rem; /* Espaciado entre ícono y texto */
-}
-
-.dropdown-item:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Color de fondo al pasar el mouse */
-    cursor: pointer;
-}
-/* Fin Dropdown Menu */
 
 /* MAPA */
 #map-container {
@@ -301,6 +265,7 @@ svg path:hover {
     border: 5px solid crimson;
     width: fit-content;
 }
+
 
 /* CONTENEDOR CONTENIDO PRINCIPAL*/
 .contenido-principal {

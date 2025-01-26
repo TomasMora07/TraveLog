@@ -23,38 +23,31 @@
 </head>
 
 <body>
-   <header class="header">
-
-      <div class="contenedor">
-         <div class="barra">
-
-            <a class="logo" href="index.html">
-               <h1 class="logo__nombre no-margin centrar-texto">Trave<span class="logo__bold">Log</span></h1>
-            </a>
-
-            <nav class="navegacion">
-               <div class="search-container">
-                  <!-- SEARCH BAR -->
-                  <input type="text" id="search-input" placeholder="Search a country...">
+   <header>
+      <div class="navbar">
+         <div class="logo"><a href="index.html">TraveLog</div>
+         <ul class="links">
+            <li><a href="profile.html">My Profile</a></li>
+            <li><a href="countries.html">My Countries</a></li>
+            <li><a href="login.html">Log Out</a></li>
+         </ul>
+         <input type="text" class="action_btn" id="search-input" placeholder="Search a country...">
                   <ul id="country-list">
                      <!-- La lista se cargará dinámicamente mediante JavaScript -->
                   </ul>
-               </div>
-               <!-- MENU BAR -->
-               <i class="fa-solid fa-bars fa-3x" id="menu-icon"></i>
-               <div class="dropdown-menu" id="dropdown-menu">
-                  <a href="profile.html" class="dropdown-item">
-                     <i class="fa-solid fa-user"></i> My Profile
-                  </a>
-                  <a href="mycountries.html" class="dropdown-item">
-                     <i class="fa-solid fa-globe"></i> My Countries
-                  </a>
-                  <a href="login.html" class="dropdown-item">
-                     <i class="fa-solid fa-right-from-bracket"></i> Log out
-                  </a>
-               </div>
-            </nav>
+         <div class="toggle_btn">
+            <i class="fa-solid fa-bars"></i>
          </div>
+      </div>
+
+      <div class="dropdown_menu">
+         <li><a href="profile.html">My Profile</a></li>
+         <li><a href="countries.html">My Countries</a></li>
+         <li><a href="login.html">Log Out</a></li>
+         <li><input type="text" class="action_btn" id="search-input" placeholder="Search a country...">
+            <ul id="country-list">
+               <!-- La lista se cargará dinámicamente mediante JavaScript -->
+            </ul></li>
       </div>
    </header>
 
