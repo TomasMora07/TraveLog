@@ -6,8 +6,7 @@
 
 body {
     height: 100vh;
-    background-color: #000;
-    background-image: url(/img/bg.jpg);
+    background-image: url(../img/bg.jpg);
     background-size: cover;
     background-position: center;
     overflow: auto;
@@ -46,7 +45,10 @@ header {
 }
 
 .navbar .logo a {
-    font-size: 1.5rem;
+    font-size: 2rem;
+}
+
+.navbar .logo span {
     font-weight: bold;
 }
 
@@ -84,7 +86,7 @@ header {
     display: none;
     position: absolute;
     right: 2rem;
-    top: 60px;
+    top: 70px;
     width: 300px;
     height: 0;
     background: rgba(255, 255, 255, 0.1);
@@ -158,8 +160,9 @@ header {
  }
  
  #country-list li:hover {
-    background-color: rgba(68, 80, 86, 0.212);
-    color: rgb(211, 137, 0);
+    background-color: orange;
+    color: #fff;
+    font-weight: bold;
  }
 
 /* Asegura que la lista se vea bien */
@@ -186,7 +189,7 @@ header {
  
  /* Resaltado del país en el mapa */
  svg path.selected {
-    fill: green !important;
+    fill: orange !important;
  }
 
 /* MAPA */
@@ -267,55 +270,146 @@ svg path:hover {
 }
 
 
-/* CONTENEDOR CONTENIDO PRINCIPAL*/
+/* CONTENEDOR CONTENIDO PRINCIPAL YOUR PROGRESS*/
+.contenedor {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .contenido-principal {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
     margin-top: 2rem;
     padding: 1rem;
-    background-color: rgb(45, 45, 62);
-    border-radius: 2rem;
 }
 
 /* LOG AND PROGRESS */
-
 .title-progress{
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
     margin-top: 1rem;
-    margin-left: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
-/* Estilo para la barra de progreso circular */
-.circular-progress {
+  /* Estilo del contenedor del gráfico circular */
+  .circular-progress {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: conic-gradient(var(--progress-color, orange) 50% var(--percentage, 0%),
+              var(--bg-color, #e0e0e0) var(--percentage, 0%) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  /* Círculo interno vacío */
+  .inner-circle {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      background-color: var(--inner-circle-color, #fff);
+      border-radius: 50%;
+  }
+
+  /* Porcentaje en el centro */
+  .percentage {
+      position: absolute;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: orange;
+      font-family: Arial, sans-serif;
+  }
+
+  .progress-text {
+    font-size: 1rem;
+    color: #fff;
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .progress-text span{
+    font-weight: bold;
+  }
+
+  /* FOOTER */
+  footer{
     position: relative;
-    width: 18rem; /* Tamaño del círculo */
-    height: 18rem;
-    border-radius: 50%;
-    background: conic-gradient(
-        var(--progress-color, white) 50%,
-        var(--progress-color, white) calc(var(--percentage, 0) * 1%),
-        var(--bg-color, grey) calc(var(--percentage, 0) * 1%)
-    );
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: 100vw;
+    font-family: "Open Sans";
+    padding-top: 20px;
+    background: #222;
+    color: #fff;
+}
+.footer-content{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 2rem auto; /* Centrar la barra */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-}
-
-.circular-progress .inner-circle {
-    position: absolute;
-    width: 15rem; /* Tamaño del círculo interno */
-    height: 15rem;
-    border-radius: 50%;
-    background-color: var(--inner-circle-color,  var(--background-color));
-    z-index: 1;
-}
-
-.circular-progress .percentage {
-    position: absolute;
-    font-size: 2rem;
-    font-family: 'Arial', sans-serif;
-    color: white;
-    font-weight: bold;
+    flex-direction: column;
     text-align: center;
-    z-index: 2;
+}
+.footer-content h3{
+    font-size: 1.8rem;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 3rem;
+}
+.footer-content h3 span{
+    font-weight: bold;
+}
+.footer-content p{
+    max-width: 500px;
+    margin: 10px auto;
+    line-height: 28px;
+    font-size: 14px;
+}
+.socials{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 2rem 0;
+}
+.socials li{
+    margin: 0 10px;
+}
+.socials a{
+    text-decoration: none;
+    color: #fff;
+}
+.socials a i{
+    font-size: 1.1rem;
+    transition: color .4s ease;
+
+}
+.socials a:hover i{
+    color: orange;
+}
+
+.footer-bottom{
+    background: #111;
+    width: 100vw;
+    padding: 20px 0;
+    text-align: center;
+}
+.footer-bottom p{
+    font-size: 14px;
+    word-spacing: 2px;
+    text-transform: capitalize;
+}
+.footer-bottom span{
+    color: orange;
+    font-weight: 200;
+    font-weight: bold;
 }
