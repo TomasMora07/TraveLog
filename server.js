@@ -23,10 +23,6 @@ app.use(session({
 
 const connection = require('./db');
 
-app.get('/', (req, res)=>{
-  res.render('index');
-})
-
 app.get('/login', (req, res)=>{
   res.render('login');
 })
@@ -83,6 +79,7 @@ app.post('/auth', async (req, res)=>{
           });
         } else {
           req.session.loggedin = true;
+          req.session.userId = results[0].id; // <-- Aquí guardamos el id del usuario
           req.session.name = results[0].nombre
           res.render('login', {
             alert: true,
@@ -113,7 +110,8 @@ app.get('/', (req, res)=>{
   if(req.session.loggedin) {
     res.render('index', {
       login: true,
-      name: req.session.name
+      name: req.session.name,
+      userId: req.session.userId // <-- Pasamos el ID del usuario al renderizar el index
     })
   } else {
     res.render('index', {
@@ -121,6 +119,31 @@ app.get('/', (req, res)=>{
       name: 'You must log in'
     })
   }
+})
+
+app.post("/insertCountries", async (req, res) => {
+  const userId = req.body.userId;
+  const countryId = req.body.countryId;
+
+  if (!userId || !countryId) {
+     return res.status(400).json({ success: false, message: "Datos incompletos" });
+  }
+
+  connection.query('INSERT INTO usuarios_paises_recuerdos SET ?', {id_usuario:userId, id_pais:countryId},
+    async(error, results)=>{
+      if (error) {
+        console.log(error);
+      } else {
+        res.json({ success: true });
+      }
+    })
+  })
+
+/* LOG OUT */
+app.get('/logout', (req, res)=>{
+  req.session.destroy(()=>{
+    res.redirect('/login')
+  })
 })
 
 app.listen(3000, (req, res)=>{

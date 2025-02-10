@@ -69,6 +69,15 @@ document.addEventListener("DOMContentLoaded", function () {
    const countryList = document.getElementById("country-list");
    const svgPaths = document.querySelectorAll("svg path");
 
+   // Obtener el ID del usuario desde el HTML oculto
+   const userIdElement = document.getElementById("user-id");
+   const userId = userIdElement ? userIdElement.textContent.trim() : null;
+
+   if (!userId) {
+      console.error("No se encontró el ID del usuario en la sesión.");
+      return;
+   }
+
    // Cargar todos los países al iniciar
    const countries = Array.from(svgPaths).map(path => ({
       id: path.id,
@@ -78,87 +87,84 @@ document.addEventListener("DOMContentLoaded", function () {
    // Poblar la lista de países
    countries.forEach(country => {
       const li = document.createElement("li");
-      li.classList.add("country-item"); // Clase para estilizar el elemento
-
-      // Crear el checkbox
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.dataset.id = country.id; // Relacionar con el path del mapa
+      li.classList.add("country-item");
 
       // Crear el texto del país
       const text = document.createElement("span");
       text.textContent = country.name;
-      text.classList.add("country-name"); // Clase para estilizar el texto
+      text.classList.add("country-name");
 
-      // Agregar checkbox y texto al li
-      li.appendChild(checkbox);
       li.appendChild(text);
-      li.dataset.id = country.id; // Relacionar con el path del mapa
+      li.dataset.id = country.id;
 
       countryList.appendChild(li);
    });
 
-   // Mostrar la lista completa al hacer clic en la barra de búsqueda
+   // Mostrar la lista al hacer clic en la barra de búsqueda
    searchInput.addEventListener("focus", function () {
-      // Mostrar todos los países
-      Array.from(countryList.children).forEach(li => {
-         li.style.display = "block";
-      });
+      Array.from(countryList.children).forEach(li => li.style.display = "block");
       countryList.style.display = "block";
    });
 
    // Filtrar la lista al escribir
    searchInput.addEventListener("input", function () {
       const searchValue = searchInput.value.toLowerCase();
-
-      // Filtrar los países que coincidan con la búsqueda
       Array.from(countryList.children).forEach(li => {
          const matches = li.textContent.toLowerCase().includes(searchValue);
          li.style.display = matches ? "block" : "none";
       });
-
-      // Mostrar la lista si hay texto o si se ha hecho clic
-      countryList.style.display = searchValue || searchInput === document.activeElement ? "block" : "none";
    });
 
-   // Seleccionar un país desde la lista
+   // Seleccionar un país y enviar la solicitud
    countryList.addEventListener("click", function (e) {
       if (e.target.tagName === "LI" || e.target.tagName === "SPAN") {
          const li = e.target.closest("li");
          const selectedCountryId = li.dataset.id;
 
-         // Alternar selección del país en el mapa
+         // Enviar la solicitud POST al backend
+         fetch("/insertCountries", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+               userId: userId,
+               countryId: selectedCountryId
+            }),
+         })
+         .then(response => response.json())
+         .then(data => {
+            if (data.success) {
+               alert("País agregado correctamente.");
+            } else {
+               alert("Error al agregar el país.");
+            }
+         })
+         .catch(error => console.error("Error:", error));
+
+         // Actualizar la UI
          svgPaths.forEach(path => {
             if (path.id === selectedCountryId) {
-               path.classList.toggle("selected"); // Alternar la clase "selected"
+               path.classList.toggle("selected");
             } else {
-               path.classList.remove("selected"); // Asegurarse de que otros países no queden seleccionados
+               path.classList.remove("selected");
             }
          });
 
-         // Mostrar el nombre del país en el input
-         const selectedPath = Array.from(svgPaths).find(path => path.id === selectedCountryId);
-         if (selectedPath && selectedPath.classList.contains("selected")) {
-            searchInput.value = li.textContent; // Mostrar nombre si está seleccionado
-         } else {
-            searchInput.value = ""; // Limpiar input si se deselecciona
-         }
-
-         // Ocultar la lista después de seleccionar
+         searchInput.value = li.textContent;
          countryList.style.display = "none";
       }
    });
 
-   // Ocultar la lista al hacer clic fuera del contenedor, excepto en el input o la lista
+   // Ocultar la lista al hacer clic fuera
    document.addEventListener("click", function (e) {
       if (!e.target.closest("#search-input") && !e.target.closest("#country-list")) {
          countryList.style.display = "none";
       }
    });
 });
+
 // FIN DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
-
-
 
 
 
