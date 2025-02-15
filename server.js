@@ -159,7 +159,7 @@ app.get("/selectedCountries/:userId", (req, res) => {
 });
 
 
-/* OBTENER PROGRESO DEL USUARIO */
+/* OBTENER PROGRESO DEL USUARIO (CANTIDAD DE PAÍSES ASOCIADOS)*/
 app.get('/progreso/:userId', (req, res) => {
   const userId = req.params.userId;
 
@@ -189,6 +189,23 @@ app.get('/progreso/:userId', (req, res) => {
       totalPaises: totalPaises,
       porcentaje: porcentaje
     });
+  });
+});
+
+
+// ELIMINAR PAÍS SELECCIONADO POR EL USUARIO
+app.post("/deleteCountry/:userId", (req, res) => {
+  const userId = req.params.userId;
+  const countryId = req.body.countryId;
+
+  const query = "DELETE FROM usuarios_paises_recuerdos WHERE id_usuario = ? AND id_pais = ?";
+  connection.query(query, [userId, countryId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, error: "Error al eliminar el país." });
+    }
+
+    res.json({ success: true });
   });
 });
 

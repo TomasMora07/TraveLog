@@ -148,9 +148,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
          // Validar si el país ya está seleccionado
          if (li.classList.contains("selected-country")) {
-            alert("Este país ya está seleccionado.");
+            // Obtener el ID del país
+            const countryId = li.dataset.id;
+
+            // Enviar una solicitud al backend para eliminar el país
+            fetch(`/deleteCountry/${userId}`, {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+               },
+               body: JSON.stringify({ countryId }),
+            })
+               .then(response => response.json())
+               .then(data => {
+                  if (data.success) {
+                     // Desmarcar el país de la lista y del mapa
+                     li.classList.remove("selected-country");
+                     const path = document.getElementById(countryId);
+                     if (path) {
+                        path.classList.remove("selected");
+                     }
+                     console.log("País eliminado correctamente.");
+                  } else {
+                     console.error("Error al eliminar el país.");
+                  }
+               })
+               .catch(error => console.error("Error al enviar la solicitud:", error));
+
             return;
-         }
+         } 
 
          // Enviar la solicitud POST al backend
          fetch("/insertCountries", {
