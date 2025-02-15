@@ -165,6 +165,13 @@ header {
     font-weight: bold;
  }
 
+ /* Resaltado del país seleccionado en la lista */
+#country-list li.selected-country {
+    background-color: orange;
+    color: #fff;
+    font-weight: bold;
+}
+
 /* Asegura que la lista se vea bien */
 #country-list {
     list-style-type: none;

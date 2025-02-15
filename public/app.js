@@ -100,6 +100,31 @@ document.addEventListener("DOMContentLoaded", function () {
       countryList.appendChild(li);
    });
 
+   // **NUEVO: Cargar países seleccionados desde el backend**
+   fetch(`/selectedCountries/${userId}`)
+      .then(response => response.json())
+      .then(data => {
+         if (data.success) {
+            const selectedCountries = data.selectedCountries;
+
+            // Resaltar países seleccionados en el mapa y la lista
+            selectedCountries.forEach(countryId => {
+               const path = document.getElementById(countryId);
+               if (path) {
+                  path.classList.add("selected");
+               }
+
+               const listItem = document.querySelector(`#country-list li[data-id="${countryId}"]`);
+               if (listItem) {
+                  listItem.classList.add("selected-country");
+               }
+            });
+         } else {
+            console.error("Error al cargar países seleccionados.");
+         }
+      })
+      .catch(error => console.error("Error al recuperar países seleccionados:", error));
+
    // Mostrar la lista al hacer clic en la barra de búsqueda
    searchInput.addEventListener("focus", function () {
       Array.from(countryList.children).forEach(li => li.style.display = "block");
@@ -120,6 +145,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (e.target.tagName === "LI" || e.target.tagName === "SPAN") {
          const li = e.target.closest("li");
          const selectedCountryId = li.dataset.id;
+
+         // Validar si el país ya está seleccionado
+         if (li.classList.contains("selected-country")) {
+            alert("Este país ya está seleccionado.");
+            return;
+         }
 
          // Enviar la solicitud POST al backend
          fetch("/insertCountries", {
@@ -150,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                      // Actualizar el gráfico circular
                      circularProgress.style.setProperty("--percentage", `${porcentaje}%`);
-                     circularProgress.style.setProperty("--progress-color", "orange"); // Cambia el color según el progreso
+                     circularProgress.style.setProperty("--progress-color", "orange");
                      progressText.textContent = `${totalPaises} / 256 Countries`;
                      percentageText.textContent = `${porcentaje}%`;
                   })
@@ -164,12 +195,12 @@ document.addEventListener("DOMContentLoaded", function () {
          // Actualizar la UI
          svgPaths.forEach(path => {
             if (path.id === selectedCountryId) {
-               path.classList.toggle("selected");
-            } else {
-               path.classList.remove("selected");
+               path.classList.add("selected"); // Mantener el estado seleccionado
             }
          });
 
+         // Resaltar el país en la lista
+         li.classList.add("selected-country");
          searchInput.value = li.textContent;
          countryList.style.display = "none";
       }
@@ -181,6 +212,46 @@ document.addEventListener("DOMContentLoaded", function () {
          countryList.style.display = "none";
       }
    });
+});
+
+
+// MÉTODO PARA RESALTAR PAÍSES QUE EL USUARIO TENGA ASOCIADOS
+document.addEventListener("DOMContentLoaded", function () {
+   const svgPaths = document.querySelectorAll("svg path");
+
+   // Obtener el ID del usuario desde el HTML oculto
+   const userIdElement = document.getElementById("user-id");
+   const userId = userIdElement ? userIdElement.textContent.trim() : null;
+
+   if (!userId) {
+      console.error("No se encontró el ID del usuario en la sesión.");
+      return;
+   }
+
+   // Recuperar países seleccionados desde el backend
+   fetch(`/selectedCountries/${userId}`)
+      .then(response => response.json())
+      .then(data => {
+         if (data.success) {
+            const selectedCountries = data.selectedCountries;
+
+            // Resaltar los países seleccionados
+            selectedCountries.forEach(countryId => {
+               const path = document.getElementById(countryId);
+               if (path) {
+                  path.classList.add("selected");
+               }
+
+               const listItem = document.querySelector(`#country-list li[data-id="${countryId}"]`);
+               if (listItem) {
+                  listItem.classList.add("selected-country");
+               }
+            });
+         } else {
+            console.error("Error al cargar países seleccionados.");
+         }
+      })
+      .catch(error => console.error("Error al recuperar países seleccionados:", error));
 });
 
 

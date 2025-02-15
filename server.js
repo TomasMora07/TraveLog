@@ -140,6 +140,25 @@ app.post("/insertCountries", async (req, res) => {
     })
   })
 
+
+/** OBTENER PAÍSES ASOCIADOS AL USUARIO */
+app.get("/selectedCountries/:userId", (req, res) => {
+  const userId = req.params.userId;
+
+  // Obtener los países seleccionados desde la base de datos
+  const query = "SELECT id_pais FROM usuarios_paises_recuerdos WHERE id_usuario = ?";
+  connection.query(query, [userId], (err, results) => {
+     if (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, error: "Error al obtener países." });
+     }
+
+     const selectedCountries = results.map(row => row.id_pais);
+     res.json({ success: true, selectedCountries });
+  });
+});
+
+
 /* OBTENER PROGRESO DEL USUARIO */
 app.get('/progreso/:userId', (req, res) => {
   const userId = req.params.userId;
@@ -173,12 +192,14 @@ app.get('/progreso/:userId', (req, res) => {
   });
 });
 
+
 /* LOG OUT */
 app.get('/logout', (req, res)=>{
   req.session.destroy(()=>{
     res.redirect('/login')
   })
 })
+
 
 app.listen(3000, (req, res)=>{
   console.log('SERVER RUNNING IN http://localhost:3000')
