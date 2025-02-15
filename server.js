@@ -121,6 +121,7 @@ app.get('/', (req, res)=>{
   }
 })
 
+/* ASOCIAR PAÍS AL USUARIO */
 app.post("/insertCountries", async (req, res) => {
   const userId = req.body.userId;
   const countryId = req.body.countryId;
@@ -138,6 +139,39 @@ app.post("/insertCountries", async (req, res) => {
       }
     })
   })
+
+/* OBTENER PROGRESO DEL USUARIO */
+app.get('/progreso/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  if (!userId) {
+    return res.status(400).json({ success: false, message: "El ID del usuario es requerido" });
+  }
+
+  // Consulta para contar los países relacionados al usuario
+  const query = `
+    SELECT COUNT(*) AS totalPaises
+    FROM usuarios_paises_recuerdos
+    WHERE id_usuario = ?
+  `;
+
+  connection.query(query, [userId], (error, results) => {
+    if (error) {
+      console.error('Error al obtener progreso:', error);
+      return res.status(500).json({ success: false, message: 'Error al obtener progreso del usuario' });
+    }
+
+    const totalPaises = results[0].totalPaises;
+    const porcentaje = Math.round((totalPaises / 256) * 100); // Cálculo del porcentaje redondeado
+
+    // Respuesta con el total de países y el porcentaje
+    res.json({
+      success: true,
+      totalPaises: totalPaises,
+      porcentaje: porcentaje
+    });
+  });
+});
 
 /* LOG OUT */
 app.get('/logout', (req, res)=>{

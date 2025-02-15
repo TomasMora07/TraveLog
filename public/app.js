@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // FIN DE MOVER EL MAPA CON EL MOUSE
 
-
 // INICIO DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
 document.addEventListener("DOMContentLoaded", function () {
    const searchInput = document.getElementById("search-input");
@@ -163,6 +162,31 @@ document.addEventListener("DOMContentLoaded", function () {
       }
    });
 });
+
+// PROGRESO DEL USUARIO
+document.addEventListener("DOMContentLoaded", () => {
+   // Obtener el ID del usuario desde el HTML oculto
+   const userIdElement = document.getElementById("user-id");
+   const userId = userIdElement ? userIdElement.textContent.trim() : null;
+   const progressText = document.querySelector(".progress-text");
+   const percentageText = document.querySelector(".percentage");
+   const circularProgress = document.querySelector(".circular-progress");
+
+   // Llamada al endpoint del backend
+   fetch(`/progreso/${userId}`)
+     .then(response => response.json())
+     .then(data => {
+       const totalPaises = data.totalPaises;
+       const porcentaje = data.porcentaje;
+
+       // Actualizar el gráfico circular
+       circularProgress.style.setProperty("--percentage", `${porcentaje}%`);
+       circularProgress.style.setProperty("--progress-color", "orange"); // Cambia el color según el progreso
+       progressText.textContent = `${totalPaises} / 256 Countries`;
+       percentageText.textContent = `${porcentaje}%`;
+     })
+     .catch(error => console.error("Error al cargar el progreso:", error));
+ });
 
 // FIN DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
 

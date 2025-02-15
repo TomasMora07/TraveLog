@@ -241,7 +241,7 @@ svg path:hover {
 
 .contenido-principal {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
+    /*backdrop-filter: blur(15px);*/
     border-radius: 10px;
     margin-top: 2rem;
     padding: 1rem;
@@ -262,7 +262,7 @@ svg path:hover {
       width: 150px;
       height: 150px;
       border-radius: 50%;
-      background: conic-gradient(var(--progress-color, orange) 50% var(--percentage, 0%),
+      background: conic-gradient(var(--progress-color, orange) 0% var(--percentage, 0%),
               var(--bg-color, #e0e0e0) var(--percentage, 0%) 100%);
       display: flex;
       justify-content: center;
