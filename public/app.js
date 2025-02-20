@@ -118,12 +118,38 @@ document.addEventListener("DOMContentLoaded", function () {
                if (listItem) {
                   listItem.classList.add("selected-country");
                }
+
+               // Obtener el nombre del país del atributo 'title' del mapa
+               const countryName = path ? path.getAttribute("title") : "Unknown";
+
+               // Llenar la tabla con el país seleccionado
+               const tableBody = document.querySelector("#selected-countries-table tbody");
+               const row = document.createElement("tr");
+
+               // Columna de nombre del país
+               const countryCell = document.createElement("td");
+               countryCell.textContent = countryName;
+
+               // Columna de acción con botón "See my memories"
+               const actionCell = document.createElement("td");
+               const button = document.createElement("button");
+               button.textContent = "See my memories";
+               button.classList.add("memory-button");
+               button.addEventListener("click", () => {
+                  window.location.href = "/memories.ejs"; // Redirige a la página memories.ejs
+               });
+
+               actionCell.appendChild(button);
+               row.appendChild(countryCell);
+               row.appendChild(actionCell);
+               tableBody.appendChild(row);
             });
          } else {
             console.error("Error al cargar países seleccionados.");
          }
       })
       .catch(error => console.error("Error al recuperar países seleccionados:", error));
+
 
    // Mostrar la lista al hacer clic en la barra de búsqueda
    searchInput.addEventListener("focus", function () {
@@ -141,42 +167,69 @@ document.addEventListener("DOMContentLoaded", function () {
    });
 
    // Seleccionar un país y enviar la solicitud
-   countryList.addEventListener("click", function (e) {
-      if (e.target.tagName === "LI" || e.target.tagName === "SPAN") {
-         const li = e.target.closest("li");
-         const selectedCountryId = li.dataset.id;
+countryList.addEventListener("click", function (e) {
+   if (e.target.tagName === "LI" || e.target.tagName === "SPAN") {
+      const li = e.target.closest("li");
+      const selectedCountryId = li.dataset.id;
 
-         // Validar si el país ya está seleccionado
-         if (li.classList.contains("selected-country")) {
-            // Obtener el ID del país
-            const countryId = li.dataset.id;
-
-            // Enviar una solicitud al backend para eliminar el país
-            fetch(`/deleteCountry/${userId}`, {
-               method: "POST",
-               headers: {
-                  "Content-Type": "application/json",
-               },
-               body: JSON.stringify({ countryId }),
-            })
-               .then(response => response.json())
-               .then(data => {
-                  if (data.success) {
-                     // Desmarcar el país de la lista y del mapa
-                     li.classList.remove("selected-country");
-                     const path = document.getElementById(countryId);
-                     if (path) {
-                        path.classList.remove("selected");
-                     }
-                     console.log("País eliminado correctamente.");
-                  } else {
-                     console.error("Error al eliminar el país.");
-                  }
-               })
-               .catch(error => console.error("Error al enviar la solicitud:", error));
-
-            return;
-         } 
+      // Validar si el país ya está seleccionado
+      if (li.classList.contains("selected-country")) {
+         // Obtener el ID del país
+         const countryId = li.dataset.id;
+     
+         // Enviar una solicitud al backend para eliminar el país
+         fetch(`/deleteCountry/${userId}`, {
+             method: "POST",
+             headers: {
+                 "Content-Type": "application/json",
+             },
+             body: JSON.stringify({ countryId })
+         })
+         .then(response => response.json())
+         .then(data => {
+             if (data.success) {
+                 // Desmarcar el país de la lista y del mapa
+                 li.classList.remove("selected-country");
+                 const path = document.getElementById(countryId);
+                 if (path) {
+                     path.classList.remove("selected");
+                 }
+     
+                 // Eliminar la fila de la tabla
+                 const tableBody = document.querySelector("#selected-countries-table tbody");
+                 const rowToDelete = tableBody.querySelector(`tr[data-id="${countryId}"]`);
+                 if (rowToDelete) {
+                     tableBody.removeChild(rowToDelete); // Eliminar la fila
+                 }
+     
+                 // Actualizar progreso
+                 const progressText = document.querySelector(".progress-text");
+                 const percentageText = document.querySelector(".percentage");
+                 const circularProgress = document.querySelector(".circular-progress");
+     
+                 // Llamada al endpoint del backend para progreso actualizado
+                 fetch(`/progreso/${userId}`)
+                     .then(response => response.json())
+                     .then(data => {
+                         const totalPaises = data.totalPaises;
+                         const porcentaje = data.porcentaje;
+     
+                         // Actualizar el gráfico circular
+                         circularProgress.style.setProperty("--percentage", `${porcentaje}%`);
+                         progressText.textContent = `${totalPaises} / 256 Countries`;
+                         percentageText.textContent = `${porcentaje}%`;
+                     })
+                     .catch(error => console.error("Error al cargar el progreso actualizado:", error));
+     
+                 console.log("País eliminado correctamente.");
+             } else {
+                 console.error("Error al eliminar el país.");
+             }
+         })
+         .catch(error => console.error("Error al enviar la solicitud:", error));
+     
+         return;
+     }  
 
          // Enviar la solicitud POST al backend
          fetch("/insertCountries", {
@@ -189,34 +242,59 @@ document.addEventListener("DOMContentLoaded", function () {
                countryId: selectedCountryId
             }),
          })
-         .then(response => response.json())
-         .then(data => {
-            if (data.success) {
-               alert("País agregado correctamente.");
-
-               const progressText = document.querySelector(".progress-text");
-               const percentageText = document.querySelector(".percentage");
-               const circularProgress = document.querySelector(".circular-progress");
-
-               // Llamada al endpoint del backend
-               fetch(`/progreso/${userId}`)
-                  .then(response => response.json())
-                  .then(data => {
-                     const totalPaises = data.totalPaises;
-                     const porcentaje = data.porcentaje;
-
-                     // Actualizar el gráfico circular
-                     circularProgress.style.setProperty("--percentage", `${porcentaje}%`);
-                     circularProgress.style.setProperty("--progress-color", "orange");
-                     progressText.textContent = `${totalPaises} / 256 Countries`;
-                     percentageText.textContent = `${porcentaje}%`;
-                  })
-                  .catch(error => console.error("Error al cargar el progreso actualizado:", error));
-            } else {
-               alert("Error al agregar el país.");
-            }
-         })
-         .catch(error => console.error("Error:", error));
+            .then(response => response.json())
+            .then(data => {
+               if (data.success) {
+                  alert("País agregado correctamente.");
+               
+                  // **Agregar una nueva fila a la tabla**
+                  const tableBody = document.querySelector("#selected-countries-table tbody");
+                  const row = document.createElement("tr");
+                  row.dataset.id = selectedCountryId; // Para identificar la fila
+               
+                  // Columna de nombre del país
+                  const countryCell = document.createElement("td");
+                  countryCell.textContent = li.textContent; // Usa el nombre del país de la lista
+                  row.appendChild(countryCell);
+               
+                  // Columna de acción con botón "See my memories"
+                  const actionCell = document.createElement("td");
+                  const button = document.createElement("button");
+                  button.textContent = "See my memories";
+                  button.classList.add("memory-button");
+                  button.addEventListener("click", () => {
+                     window.location.href = "/memories.ejs"; // Redirige a la página memories.ejs
+                  });
+                  actionCell.appendChild(button);
+                  row.appendChild(actionCell);
+               
+                  // Añadir la fila a la tabla
+                  tableBody.appendChild(row);
+               
+                  // Actualizar progreso
+                  const progressText = document.querySelector(".progress-text");
+                  const percentageText = document.querySelector(".percentage");
+                  const circularProgress = document.querySelector(".circular-progress");
+               
+                  // Llamada al endpoint del backend
+                  fetch(`/progreso/${userId}`)
+                     .then(response => response.json())
+                     .then(data => {
+                        const totalPaises = data.totalPaises;
+                        const porcentaje = data.porcentaje;
+               
+                        // Actualizar el gráfico circular
+                        circularProgress.style.setProperty("--percentage", `${porcentaje}%`);
+                        circularProgress.style.setProperty("--progress-color", "orange");
+                        progressText.textContent = `${totalPaises} / 256 Countries`;
+                        percentageText.textContent = `${porcentaje}%`;
+                     })
+                     .catch(error => console.error("Error al cargar el progreso actualizado:", error));
+               } else {
+                  alert("Error al agregar el país.");
+               }
+            })
+            .catch(error => console.error("Error:", error));
 
          // Actualizar la UI
          svgPaths.forEach(path => {
@@ -239,47 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
    });
 });
-
-
-// MÉTODO PARA RESALTAR PAÍSES QUE EL USUARIO TENGA ASOCIADOS
-document.addEventListener("DOMContentLoaded", function () {
-   const svgPaths = document.querySelectorAll("svg path");
-
-   // Obtener el ID del usuario desde el HTML oculto
-   const userIdElement = document.getElementById("user-id");
-   const userId = userIdElement ? userIdElement.textContent.trim() : null;
-
-   if (!userId) {
-      console.error("No se encontró el ID del usuario en la sesión.");
-      return;
-   }
-
-   // Recuperar países seleccionados desde el backend
-   fetch(`/selectedCountries/${userId}`)
-      .then(response => response.json())
-      .then(data => {
-         if (data.success) {
-            const selectedCountries = data.selectedCountries;
-
-            // Resaltar los países seleccionados
-            selectedCountries.forEach(countryId => {
-               const path = document.getElementById(countryId);
-               if (path) {
-                  path.classList.add("selected");
-               }
-
-               const listItem = document.querySelector(`#country-list li[data-id="${countryId}"]`);
-               if (listItem) {
-                  listItem.classList.add("selected-country");
-               }
-            });
-         } else {
-            console.error("Error al cargar países seleccionados.");
-         }
-      })
-      .catch(error => console.error("Error al recuperar países seleccionados:", error));
-});
-
+// FIN DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
 
 // PROGRESO DEL USUARIO
 document.addEventListener("DOMContentLoaded", () => {
@@ -306,33 +344,5 @@ document.addEventListener("DOMContentLoaded", () => {
      .catch(error => console.error("Error al cargar el progreso:", error));
  });
 
-// FIN DE MÉTODOS PARA LA BARRA DE BÚSQUEDA
 
 
-
-
-
-
-
-
-
- 
- /*
- function insertarPaises() {
-   fetch('/insertar-paises', { method: 'POST' })
-     .then(response => {
-       if (response.ok) {
-         return response.text();
-       } else {
-         throw new Error('Error al insertar países.');
-       }
-     })
-     .then(data => {
-       alert(data); // Mostrar mensaje del servidor
-     })
-     .catch(error => {
-       console.error('Hubo un error:', error);
-       alert('Error al insertar los países.');
-     });
- }
-     */
