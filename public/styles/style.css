@@ -6,10 +6,10 @@
 
 body {
     height: 100vh;
-    background-image: url(../img/bg.jpg);
-    /*background-size: cover;
+    background-color: #111;
+    background-size: cover;
     background-position: center;
-    overflow: auto; */
+    overflow: auto; 
 }
 
 li {
@@ -55,6 +55,7 @@ header {
 .navbar .links {
     display: flex;
     gap: 2rem;
+    margin-left: 45rem;
 }
 
 .navbar .toggle_btn {
@@ -255,12 +256,27 @@ svg path:hover {
 }
 
 /* LOG AND PROGRESS */
-.title-progress{
+
+.log {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-progress {
     color: #fff;
     font-size: 1.5rem;
     font-weight: bold;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.your-countries {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 3rem;
+    text-align: center;
 }
 
   /* Estilo del contenedor del gráfico circular */
@@ -295,7 +311,7 @@ svg path:hover {
   }
 
   .progress-text {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #fff;
     margin-top: 1rem;
     text-align: center;
@@ -304,7 +320,6 @@ svg path:hover {
   .progress-text span{
     font-weight: bold;
   }
-
 
   /*TABLA DE PAISES*/
 table {
@@ -369,7 +384,7 @@ button:hover {
     width: 100vw;
     font-family: "Open Sans";
     padding-top: 20px;
-    background: #222;
+    background: #111;
     color: #fff;
 }
 .footer-content{
@@ -417,8 +432,13 @@ button:hover {
     color: orange;
 }
 
+.footer-content p span{
+    font-weight: 200;
+    font-weight: bold;
+}
 .footer-bottom{
     background: #111;
+    background: rgba(255, 255, 255, 0.1);
     width: 100vw;
     padding: 20px 0;
     text-align: center;

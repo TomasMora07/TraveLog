@@ -25,11 +25,9 @@
 <body>
    <header>
       <div class="navbar">
-         <div class="logo"><a href="index">Trave<span>Log</span></div>
+         <div class="logo"><a href="index">Trave<span>Log</span></a></div>
             <% if (login) { %>
                <ul class="links">
-                  <li><a href="profile">My Profile</a></li>
-                  <li><a href="countries">My Countries</a></li>
                   <li><a href="logout">Log Out</a></li>
                </ul>
                <p style="display: none;">El usuario conectado es: <%= name %></p>
@@ -49,8 +47,6 @@
       </div>
 
       <div class="dropdown_menu">
-         <li><a href="profile.html">My Profile</a></li>
-         <li><a href="countries.html">My Countries</a></li>
          <li><a href="login.html">Log Out</a></li>
          <li><input type="text" class="action_btn" id="search-input" placeholder="Search a country...">
             <ul id="country-list">
@@ -829,7 +825,7 @@
                   <p class="percentage">0%</p>
                 </div>
          <p class="progress-text">0 / 256 <span>Countries</span></p>
-         <h2>Your Countries</h2>
+         <h2 class="your-countries">Your Countries</h2>
          <table id="selected-countries-table">
             <thead>
               <tr>
@@ -846,14 +842,13 @@
 
    <footer>
       <div class="footer-content">
-         <h3>Trave<span>Log</span></h3>
-         <p>TraveLog is a platform where users can document their travel adventures by registering the countries they've visited</p>
+         <p>Trave<span>Log</span> is a platform where users can document their travel adventures by registering the countries they've visited</p>
          <ul class="socials">
              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
          </ul>
      </div>
      <div class="footer-bottom">
-         <p>copyright &copy;2025 TraveLog. designed by <span>Tomas Mora</span></p>
+         <p>copyright &copy;2025 Trave<span>Log</span>. designed by <span>Tomas Mora</span></p>
      </div>
    </footer>
    <script src="resources/app.js"></script>
