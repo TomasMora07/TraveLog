@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+       href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Staatliches&display=swap"
+       rel="stylesheet">
+ 
+    <link rel="Preload"
+       href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Staatliches&display=swap"
+       crossorigin="crossorigin" as="font">
+    <link
+       href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Staatliches&display=swap"
+       rel="stylesheet">
+    <link rel="stylesheet" href="resources/styles/memories.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+        <header>
+           <div class="navbar">
+              <div class="logo"><a href="/">Trave<span>Log</span></a></div>
+                    <ul class="links">
+                       <li><a href="logout" class="logout-btn">Log Out</a></li>
+                    </ul>
+                    <p style="display: none;">El usuario conectado es: <%= name %></p>
+                    <p id="user-id" style="display: none;"><%= userId %></p>
+                    <div class="toggle_btn">
+                       <i class="fa-solid fa-bars"></i>
+                    </div>
+           </div>
+        </header>
+
+    <div class="blog-container">
+        <div class="blog-card">
+            <span class="close-card">&times;</span>
+            <img src="img1.jpeg" alt="Cocinando al aire libre" class="blog-image">
+            <div class="blog-content">
+                <div class="blog-header">
+                    <span class="blog-date">1 dic 2022</span>
+                </div>
+                <h2 class="blog-title">Cocinando al aire libre</h2>
+                <p class="blog-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste nisi earum a, eius quia perspiciatis velit quam praesentium soluta temporibus placeat! Dolor velit adipisci distinctio tempora amet soluta nisi facere.</p>
+            </div>
+        </div>
+
+        <div class="blog-card">
+            <span class="close-card">&times;</span>
+            <img src="img2.jpeg" alt="Los mejores lugares para acampar" class="blog-image">
+            <div class="blog-content">
+                <div class="blog-header">
+                    <span class="blog-date">1 dic 2022</span>
+                </div>
+                <h2 class="blog-title">Los mejores lugares para acampar</h2>
+                <p class="blog-description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias at blanditiis hic excepturi, explicabo sed dolorum voluptatibus quaerat soluta veniam recusandae ipsam officiis esse dolore incidunt, debitis ut quod laudantium!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔹 MODAL DE CONFIRMACIÓN -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-box">
+            <span class="close-confirm">&times;</span>
+            <h2>¿Seguro que quieres eliminar esta blog card?</h2>
+            <div class="modal-buttons">
+                <button class="confirm-btn">Confirmar</button>
+                <button class="cancel-btn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔹 MODAL PARA VER IMÁGENES EN GRANDE -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <span class="prev">&#10094;</span>
+        <span class="next">&#10095;</span>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+           <p>Trave<span>Log</span> is a platform where users can document their travel adventures by registering the countries they've visited</p>
+           <ul class="socials">
+               <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+           </ul>
+       </div>
+       <div class="footer-bottom">
+           <p>copyright &copy;2025 Trave<span>Log</span>. designed by <span>Tomas Mora</span></p>
+       </div>
+     </footer>
+
+    <!-- 🔹 SCRIPT -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+        const closeBtn = document.querySelector(".close");
+        const prevBtn = document.querySelector(".prev");
+        const nextBtn = document.querySelector(".next");
+        const images = document.querySelectorAll(".blog-image");
+
+        let currentIndex = 0;
+
+        function openModal(index) {
+            modal.style.display = "flex";
+            modalImg.src = images[index].src;
+            currentIndex = index;
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        function changeImage(step) {
+            currentIndex += step;
+            if (currentIndex < 0) {
+                currentIndex = images.length - 1; // Ir a la última imagen
+            } else if (currentIndex >= images.length) {
+                currentIndex = 0; // Volver a la primera imagen
+            }
+            modalImg.src = images[currentIndex].src;
+        }
+
+        images.forEach((img, index) => {
+            img.addEventListener("click", function () {
+                openModal(index);
+            });
+        });
+
+        closeBtn.addEventListener("click", closeModal);
+        prevBtn.addEventListener("click", () => changeImage(-1));
+        nextBtn.addEventListener("click", () => changeImage(1));
+
+        modal.addEventListener("click", function (e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    });
+    </script>
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const confirmModal = document.getElementById("confirmModal");
+            const closeConfirm = document.querySelector(".close-confirm");
+            const cancelBtn = document.querySelector(".cancel-btn");
+            const closeBtns = document.querySelectorAll(".close-card");
+    
+            function openConfirmModal() {
+                confirmModal.style.display = "flex";
+            }
+    
+            function closeConfirmModal() {
+                confirmModal.style.display = "none";
+            }
+    
+            closeBtns.forEach(btn => {
+                btn.addEventListener("click", openConfirmModal);
+            });
+    
+            closeConfirm.addEventListener("click", closeConfirmModal);
+            cancelBtn.addEventListener("click", closeConfirmModal);
+            
+            confirmModal.addEventListener("click", function (e) {
+                if (e.target === confirmModal) {
+                    closeConfirmModal();
+                }
+            });
+        });
+        </script>
+</body>
+</html>

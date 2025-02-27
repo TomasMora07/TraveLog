@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 dotenv.config({path:'./env/.env'});
 
 app.use('/resources', express.static('public'));
-app.use('/resources', express.static(__dirname + 'public'));
+app.use('/resources', express.static(__dirname + '/public'));
 
 app.set('view engine', 'ejs');
 
@@ -29,6 +29,29 @@ app.get('/login', (req, res)=>{
 
 app.get('/register', (req, res)=>{
   res.render('register');
+})
+
+app.get("/", (req, res) => {
+  const login = req.session.userId ? true : false; // Comprueba si el usuario ha iniciado sesión
+  const name = req.session.name || ''; // Obtiene el nombre del usuario (si existe)
+  const userId = req.session.userId || ''; // Obtiene el ID del usuario (si existe)
+
+  res.render("index", { login, name, userId }); // Pasa las variables a la vista
+});
+
+app.get("/memories", (req, res) => {
+  if(req.session.loggedin) {
+    res.render('memories', {
+      login: true,
+      name: req.session.name,
+      userId: req.session.userId // <-- Pasamos el ID del usuario al renderizar el index
+    })
+  } else {
+    res.render('index', {
+      login: false,
+      name: 'You must log in'
+    })
+  }
 })
 
 /* REGISTRO DE USUARIOS */

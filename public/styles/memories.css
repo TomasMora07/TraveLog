@@ -1,0 +1,381 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-color: #111;
+    background-size: cover;
+    background-position: center;
+    overflow: auto; 
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+}
+
+a:hover {
+    color: orange;
+}
+
+/* HEADER */
+
+header {
+    position: relative;
+    padding: 0 2rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar {
+    width: 100%;
+    height: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar .logo a {
+    font-size: 2rem;
+}
+
+.navbar .logo span {
+    font-weight: bold;
+}
+
+.navbar .links {
+    display: flex;
+    gap: 2rem;
+    margin-left: auto;
+}
+
+.navbar .toggle_btn {
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none;
+}
+
+.logout-btn {
+    display: block;
+    padding: 10px;
+    font-size: 1rem;
+    color: white;
+    background: transparent;
+    border-radius: 5px;
+}
+
+
+/*CONTENEDOR PRINCIPAL*/
+
+.blog-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto; /* Centra horizontalmente INICIA NUEVO */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos hijos TERMINA NUEVO */
+    margin-top: 3rem;
+}
+
+.blog-card {
+    position:relative;
+    display: flex;
+    flex-direction: row;
+    background: white;
+    /*border-radius: 10px;*/
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: 200px;
+}
+
+.blog-card:hover {
+    transform: scale(1.02);
+}
+
+.blog-image {
+    width: 40%;
+    object-fit: cover;
+}
+
+.blog-content {
+    width: 60%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.blog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: gray;
+}
+
+.blog-title {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.blog-description {
+    font-size: 14px;
+    color: #555;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .blog-container {
+        display: block;
+    }
+    .blog-card {
+        flex-direction: column;
+        height: auto;
+    }
+    .blog-image {
+        width: auto;
+    }
+    .blog-content {
+        width: 100%;
+    }
+    .blog-description {
+        width: 95%;
+    }
+}
+
+      /* 🔹 ESTILOS DE LA "X" EN BLOG-CARD */
+      .close-card {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .close-card:hover {
+        background: rgba(255, 0, 0, 0.7);
+    }
+
+    /* 🔹 MODAL DE CONFIRMACIÓN */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-box {
+        background: white;
+        padding: 20px;
+        width: 300px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+
+    .modal-box h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .close-confirm {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        color: gray;
+        cursor: pointer;
+    }
+
+    .close-confirm:hover {
+        color: red;
+    }
+
+    .modal-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .confirm-btn, .cancel-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .confirm-btn {
+        background: red;
+        color: white;
+    }
+
+    .cancel-btn {
+        background: gray;
+        color: white;
+    }
+
+    .confirm-btn:hover {
+        background: darkred;
+    }
+
+    .cancel-btn:hover {
+        background: darkgray;
+    }
+
+/* 🔹 ESTILOS DEL MODAL DE IMÁGENES*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    /*border-radius: 10px;*/
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    user-select: none;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.prev:hover, .next:hover {
+    color: #f1c40f;
+}
+
+  /* FOOTER */
+  footer{
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: 100vw;
+    font-family: "Open Sans";
+    padding-top: 20px;
+    background: #111;
+    color: #fff;
+}
+.footer-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.footer-content h3{
+    font-size: 1.8rem;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 3rem;
+}
+.footer-content h3 span{
+    font-weight: bold;
+}
+.footer-content p{
+    max-width: 500px;
+    margin: 10px auto;
+    line-height: 28px;
+    font-size: 14px;
+}
+.socials{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 2rem 0;
+}
+.socials li{
+    margin: 0 10px;
+}
+.socials a{
+    text-decoration: none;
+    color: #fff;
+}
+.socials a i{
+    font-size: 1.1rem;
+    transition: color .4s ease;
+
+}
+.socials a:hover i{
+    color: orange;
+}
+
+.footer-content p span{
+    font-weight: 200;
+    font-weight: bold;
+}
+.footer-bottom{
+    background: #111;
+    background: rgba(255, 255, 255, 0.1);
+    width: 100vw;
+    padding: 20px 0;
+    text-align: center;
+}
+.footer-bottom p{
+    font-size: 14px;
+    word-spacing: 2px;
+    text-transform: capitalize;
+}
+.footer-bottom span{
+    color: orange;
+    font-weight: 200;
+    font-weight: bold;
+}

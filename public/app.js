@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
                button.textContent = "See my memories";
                button.classList.add("memory-button");
                button.addEventListener("click", () => {
-                  window.location.href = "/memories.ejs"; // Redirige a la página memories.ejs
+                  window.location.href = "/memories"; // Redirige a la página memories.ejs
                });
 
                actionCell.appendChild(button);
@@ -263,7 +263,7 @@ countryList.addEventListener("click", function (e) {
                   button.textContent = "See my memories";
                   button.classList.add("memory-button");
                   button.addEventListener("click", () => {
-                     window.location.href = "/memories.ejs"; // Redirige a la página memories.ejs
+                     window.location.href = "/memories"; // Redirige a la página memories.ejs
                   });
                   actionCell.appendChild(button);
                   row.appendChild(actionCell);
